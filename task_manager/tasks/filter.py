@@ -7,5 +7,5 @@ class TaskFilter(django_filters.FilterSet):
         fields = {
             'status': ['exact'],
             'priority': ['exact'],
-            'due_date': ['gte', 'lte'],  # filter by range
-        }
+            'due_date': ['gte', 'lte'], 
+                            }

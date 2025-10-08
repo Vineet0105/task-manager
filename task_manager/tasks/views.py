@@ -5,10 +5,12 @@ from .serializer import *
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from .filter import TaskFilter
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class TaskViewset(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = TaskFilter
     search_fields = ['title', 'description']  # enable ?search=
