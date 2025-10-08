@@ -5,10 +5,10 @@ from rest_framework.routers import DefaultRouter
 from tasks.views import *
 
 router = DefaultRouter()
-router.register('tasks/',TaskViewset,basename='task')
+router.register('tasks',TaskViewset,basename='task')
 
 
-url_patterns = [
+urlpatterns = [
     
     path('',include(router.urls)),
     path('register/',RegisterView.as_view()),

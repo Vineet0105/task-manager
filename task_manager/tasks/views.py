@@ -5,7 +5,7 @@ from .serializer import *
 from rest_framework.permissions import IsAuthenticated
 
 class TaskViewset(viewsets.ModelViewSet):
-    serializer_class = TaskSerializer()
+    serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -13,3 +13,4 @@ class TaskViewset(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
