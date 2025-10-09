@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
+import dj_database_url
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8^$43d#_6&1!14zis!mwo@xli@^4*nmdyl2x(&j2)ti7^o*l!m'
+# SECRET_KEY = 'django-insecure-8^$43d#_6&1!14zis!mwo@xli@^4*nmdyl2x(&j2)ti7^o*l!m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
+
+
+DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY', default='unsafe-secret')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 # Application definition
 
@@ -79,13 +88,22 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config(
+            'DATABASE_URL',
+            default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+        ),
+        conn_max_age=600,
+    )
+}
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
